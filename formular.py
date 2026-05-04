@@ -4,12 +4,9 @@ import csv
 
 app = Flask(__name__)
 
-conn = psycopg2.connect(
-    host="localhost",
-    database="postgres",
-    user="postgres",
-    password="andrew"
-)
+DATABASE_URL = "postgresql://formular_user:PAROLA@dpg-xxxxx/formular"
+
+conn = psycopg2.connect(DATABASE_URL)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
