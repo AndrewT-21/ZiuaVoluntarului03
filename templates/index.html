@@ -24,13 +24,12 @@ body::before {
 /* 🔥 START SCREEN */
 .start {
   position: absolute;
-  top: 5%;          /* 🔥 mai sus pe ecran */
+  top: 3%;   /* mai sus */
   left: 50%;
   transform: translateX(-50%);
 
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
 
   z-index: 10;
@@ -38,28 +37,28 @@ body::before {
 
 /* săgeată */
 .arrow {
-  font-size: 44px;
+  font-size: 42px;
   color: white;
   animation: bounce 1s infinite;
-  margin-bottom: 8px;
-  opacity: 0.95;
+  margin-bottom: 6px;
 }
 
 /* logo */
 .logo {
-  width: 90px;
-  height: 90px;
+  width: 95px;
+  height: 95px;
   border-radius: 50%;
   cursor: pointer;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
   transition: 0.2s;
 }
 
-.logo:hover {
-  transform: scale(1.05);
+/* efect click */
+.logo:active {
+  transform: scale(0.95);
 }
 
-/* 🔥 CARD (CASCADĂ) */
+/* 🔥 CARD */
 .card {
   position: fixed;
   top: 50%;
@@ -80,7 +79,6 @@ body::before {
   transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* ACTIV = CENTRAT + CASCADĂ */
 .card.active {
   opacity: 1;
   pointer-events: auto;
@@ -88,23 +86,14 @@ body::before {
   animation: cascadeDrop 0.8s ease-out;
 }
 
-
-/* CASCADĂ ANIM */
+/* CASCADĂ */
 @keyframes cascadeDrop {
-  0% {
-    transform: translate(-50%, -70%) scale(0.9);
-    opacity: 0;
-  }
-  60% {
-    transform: translate(-50%, -45%) scale(1.02);
-    opacity: 1;
-  }
-  100% {
-    transform: translate(-50%, -50%) scale(1);
-  }
+  0% { transform: translate(-50%, -70%) scale(0.9); opacity: 0; }
+  60% { transform: translate(-50%, -45%) scale(1.02); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(1); }
 }
 
-/* HEADER (UNCHANGED) */
+/* HEADER */
 .card-header {
   background: linear-gradient(135deg, #ff4b2b, #900000);
   padding: 20px;
@@ -151,11 +140,7 @@ button {
   cursor: pointer;
 }
 
-button:hover {
-  background: #600000;
-}
-
-/* IMAGE POST */
+/* IMAGE */
 .post-image {
   width: 100%;
   height: 180px;
@@ -169,10 +154,31 @@ button:hover {
   margin-bottom: 10px;
 }
 
-/* anim săgeată */
+/* animație săgeată */
 @keyframes bounce {
   0%,100% { transform: translateY(0); }
   50% { transform: translateY(-6px); }
+}
+
+/* 📱 MOBILE FIX */
+@media (max-width: 480px) {
+
+  .card {
+    max-width: 100%;
+    width: 100%;
+    top: auto;
+    bottom: 0;
+    left: 0;
+    transform: none;
+
+    border-radius: 18px 18px 0 0;
+    max-height: 85vh;
+    overflow-y: auto;
+  }
+
+  .card.active {
+    transform: translateY(0);
+  }
 }
 </style>
 </head>
