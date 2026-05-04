@@ -6,11 +6,15 @@
 <title>Înscriere</title>
 
 <style>
+/* ======================
+   GLOBAL FIX (IMPORTANT)
+====================== */
 body {
   margin: 0;
   font-family: Arial, sans-serif;
   background: url("/static/images/2.jpg") no-repeat center center/cover;
   min-height: 100vh;
+  overflow: hidden; /* 🔥 NU mai permite scroll pe pagină */
 }
 
 /* overlay */
@@ -86,7 +90,7 @@ body::before {
   animation: cascadeDrop 0.8s ease-out;
 }
 
-/* CASCADE */
+/* CASCADE ANIMATION */
 @keyframes cascadeDrop {
   0% {
     transform: translate(-50%, -70%) scale(0.9);
@@ -202,7 +206,7 @@ button {
 }
 
 /* ======================
-   MOBILE (BOTTOM SHEET)
+   MOBILE FIX (IMPORTANT)
 ====================== */
 @media (max-width: 480px) {
 
@@ -210,15 +214,22 @@ button {
     top: auto;
     left: 0;
     bottom: 0;
-    transform: translateY(100%);
 
     width: 100%;
     max-width: 100%;
+
+    height: 80vh;        /* 🔥 CARD MIC */
+    max-height: 80vh;
+
+    transform: translateY(100%);
 
     border-radius: 18px 18px 0 0;
 
     opacity: 1;
     pointer-events: none;
+
+    display: flex;
+    flex-direction: column;
 
     transition: transform 0.5s ease;
   }
@@ -226,6 +237,12 @@ button {
   .card.active {
     transform: translateY(0);
     pointer-events: auto;
+  }
+
+  /* scroll DOAR în card */
+  form {
+    overflow-y: auto;
+    flex: 1;
   }
 }
 </style>
