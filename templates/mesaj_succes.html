@@ -3,29 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inscriere reusita</title>
+    <title>Înscriere reușită</title>
+
     <style>
         body {
+            margin: 0;
             font-family: Arial, sans-serif;
-            background-color: #900000;
+            background: linear-gradient(135deg, #900000, #3b0000);
+            min-height: 100vh;
+
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+
+            padding: 20px;
             color: white;
             text-align: center;
         }
+
         .message-container {
+            width: 100%;
+            max-width: 420px;
+
             padding: 30px;
-            background-color: #600000;
-            border-radius: 15px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            background: rgba(96, 0, 0, 0.95);
+            border-radius: 16px;
+
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+
+            animation: pop 0.5s ease-out;
+        }
+
+        h1 {
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        /* animație simplă */
+        @keyframes pop {
+            0% {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* 📱 MOBILE OPTIMIZARE */
+        @media (max-width: 480px) {
+            .message-container {
+                width: 100%;
+                max-width: 100%;
+                padding: 25px;
+                border-radius: 14px;
+            }
+
+            h1 {
+                font-size: 20px;
+            }
+
+            p {
+                font-size: 13px;
+            }
         }
     </style>
 </head>
+
 <body>
     <div class="message-container">
-        <h1>Înscrierea a fost realizată cu succes!</h1>
+        <h1>✔ Înscrierea a fost realizată cu succes!</h1>
         <p>Mulțumim că te-ai înscris la evenimentul "Ziua Voluntarului 02".</p>
     </div>
 </body>
