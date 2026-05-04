@@ -6,15 +6,11 @@
 <title>Înscriere</title>
 
 <style>
-/* ======================
-   GLOBAL FIX (IMPORTANT)
-====================== */
 body {
   margin: 0;
   font-family: Arial, sans-serif;
   background: url("/static/images/2.jpg") no-repeat center center/cover;
   min-height: 100vh;
-  overflow: hidden; /* 🔥 NU mai permite scroll pe pagină */
 }
 
 /* overlay */
@@ -25,20 +21,21 @@ body::before {
   background: rgba(0,0,0,0.6);
 }
 
-/* ======================
-   START SCREEN
-====================== */
+/* 🔥 START SCREEN */
 .start {
   position: absolute;
-  top: 3%;
+  top: 3%;   /* mai sus */
   left: 50%;
   transform: translateX(-50%);
+
   display: flex;
   flex-direction: column;
   align-items: center;
+
   z-index: 10;
 }
 
+/* săgeată */
 .arrow {
   font-size: 42px;
   color: white;
@@ -46,6 +43,7 @@ body::before {
   margin-bottom: 6px;
 }
 
+/* logo */
 .logo {
   width: 95px;
   height: 95px;
@@ -55,13 +53,12 @@ body::before {
   transition: 0.2s;
 }
 
+/* efect click */
 .logo:active {
   transform: scale(0.95);
 }
 
-/* ======================
-   CARD DESKTOP
-====================== */
+/* 🔥 CARD */
 .card {
   position: fixed;
   top: 50%;
@@ -82,7 +79,6 @@ body::before {
   transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* ACTIV */
 .card.active {
   opacity: 1;
   pointer-events: auto;
@@ -90,57 +86,14 @@ body::before {
   animation: cascadeDrop 0.8s ease-out;
 }
 
-/* CASCADE ANIMATION */
+/* CASCADĂ */
 @keyframes cascadeDrop {
-  0% {
-    transform: translate(-50%, -70%) scale(0.9);
-    opacity: 0;
-  }
-  60% {
-    transform: translate(-50%, -45%) scale(1.02);
-    opacity: 1;
-  }
-  100% {
-    transform: translate(-50%, -50%) scale(1);
-  }
+  0% { transform: translate(-50%, -70%) scale(0.9); opacity: 0; }
+  60% { transform: translate(-50%, -45%) scale(1.02); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(1); }
 }
 
-/* ======================
-   CLOSE BUTTON
-====================== */
-.close-btn {
-  position: absolute;
-  top: 10px;
-  right: 12px;
-
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  font-size: 18px;
-  font-weight: bold;
-
-  background: rgba(0,0,0,0.15);
-  color: white;
-
-  cursor: pointer;
-  z-index: 999;
-
-  transition: 0.2s;
-}
-
-.close-btn:hover {
-  background: rgba(0,0,0,0.3);
-  transform: scale(1.1);
-}
-
-/* ======================
-   CONTENT
-====================== */
+/* HEADER */
 .card-header {
   background: linear-gradient(135deg, #ff4b2b, #900000);
   padding: 20px;
@@ -155,12 +108,7 @@ body::before {
   margin-bottom: 10px;
 }
 
-.post-image {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
-}
-
+/* FORM */
 form {
   padding: 20px;
 }
@@ -180,6 +128,7 @@ input {
   box-sizing: border-box;
 }
 
+/* BUTTON */
 button {
   width: 100%;
   padding: 12px;
@@ -191,58 +140,44 @@ button {
   cursor: pointer;
 }
 
+/* IMAGE */
+.post-image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+/* MINORI */
 #text-minori {
   display: none;
   font-size: 12px;
   margin-bottom: 10px;
 }
 
-/* ======================
-   ANIMATIONS
-====================== */
+/* animație săgeată */
 @keyframes bounce {
   0%,100% { transform: translateY(0); }
   50% { transform: translateY(-6px); }
 }
 
-/* ======================
-   MOBILE FIX (IMPORTANT)
-====================== */
+/* 📱 MOBILE FIX */
 @media (max-width: 480px) {
 
   .card {
-    top: auto;
-    left: 0;
-    bottom: 0;
-
-    width: 100%;
     max-width: 100%;
-
-    height: 80vh;        /* 🔥 CARD MIC */
-    max-height: 80vh;
-
-    transform: translateY(100%);
+    width: 100%;
+    top: auto;
+    bottom: 0;
+    left: 0;
+    transform: none;
 
     border-radius: 18px 18px 0 0;
-
-    opacity: 1;
-    pointer-events: none;
-
-    display: flex;
-    flex-direction: column;
-
-    transition: transform 0.5s ease;
+    max-height: 85vh;
+    overflow-y: auto;
   }
 
   .card.active {
     transform: translateY(0);
-    pointer-events: auto;
-  }
-
-  /* scroll DOAR în card */
-  form {
-    overflow-y: auto;
-    flex: 1;
   }
 }
 </style>
@@ -250,18 +185,19 @@ button {
 
 <body>
 
-<!-- START -->
+<!-- 🔥 START -->
 <div class="start" id="start">
+
   <div class="arrow">⬇</div>
+
   <img class="logo"
        src="{{ url_for('static', filename='images/logo.png') }}"
        onclick="openCard()">
+
 </div>
 
-<!-- CARD -->
+<!-- 🔥 CARD -->
 <div class="card" id="card">
-
-  <div class="close-btn" onclick="closeCard()">✕</div>
 
   <div class="card-header">
     <img src="{{ url_for('static', filename='images/logo.png') }}">
@@ -305,20 +241,7 @@ button {
 <script>
 function openCard() {
   document.getElementById("start").style.display = "none";
-  requestAnimationFrame(() => {
-    document.getElementById("card").classList.add("active");
-  });
-}
-
-function closeCard() {
-  const card = document.getElementById("card");
-  const start = document.getElementById("start");
-
-  card.classList.remove("active");
-
-  setTimeout(() => {
-    start.style.display = "flex";
-  }, 300);
+  document.getElementById("card").classList.add("active");
 }
 
 function verificaVarsta() {
