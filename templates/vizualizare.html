@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<title>Vizualizare</title>
+
+<style>
+body {
+  font-family: Arial;
+  background: #900000;
+  color: white;
+  text-align: center;
+  padding: 10px;
+}
+
+table {
+  width: 95%;
+  max-width: 1000px;
+  margin: auto;
+  border-collapse: collapse;
+  background: white;
+  color: black;
+  overflow-x: auto;
+  display: block;
+}
+
+/* FACE TABLE SCROLL PE TELEFON */
+table thead,
+table tbody {
+  display: table;
+  width: 100%;
+}
+
+th, td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+}
+
+th {
+  background: #600000;
+  color: white;
+}
+
+/* 🔥 MOBILE */
+@media (max-width: 768px) {
+  th, td {
+    font-size: 12px;
+    padding: 8px;
+  }
+
+  table {
+    font-size: 12px;
+    overflow-x: auto;
+    display: block;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<h1>Lista înscrieri</h1>
+
+<a href="/export" style="color:white;">Export CSV</a>
+
+<table>
+<tr>
+<th>ID</th>
+<th>Nume</th>
+<th>Prenume</th>
+<th>Vârstă</th>
+<th>Telefon</th>
+<th>Județ</th>
+<th>Oraș</th>
+<th>Email</th>
+<th>Acord</th>
+</tr>
+
+{% for row in inscrieri %}
+<tr>
+<td>{{ row[0] }}</td>
+<td>{{ row[1] }}</td>
+<td>{{ row[2] }}</td>
+<td>{{ row[3] }}</td>
+<td>{{ row[4] }}</td>
+<td>{{ row[5] }}</td>
+<td>{{ row[6] }}</td>
+<td>{{ row[7] }}</td>
+<td>{{ 'Da' if row[8] else 'Nu' }}</td>
+</tr>
+{% endfor %}
+
+</table>
+
+</body>
+</html>
