@@ -24,14 +24,12 @@ body::before {
 /* 🔥 START SCREEN */
 .start {
   position: absolute;
-  top: 3%;   /* mai sus */
+  top: 3%;
   left: 50%;
   transform: translateX(-50%);
-
   display: flex;
   flex-direction: column;
   align-items: center;
-
   z-index: 10;
 }
 
@@ -53,7 +51,6 @@ body::before {
   transition: 0.2s;
 }
 
-/* efect click */
 .logo:active {
   transform: scale(0.95);
 }
@@ -180,6 +177,39 @@ button {
     transform: translateY(0);
   }
 }
+
+/* =======================
+   🔴 X BUTTON (ADAUGAT)
+======================= */
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+
+  width: 34px;
+  height: 34px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 18px;
+  font-weight: bold;
+
+  background: rgba(0,0,0,0.2);
+  color: white;
+
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 999;
+
+  transition: 0.2s;
+}
+
+.close-btn:hover {
+  background: rgba(0,0,0,0.4);
+  transform: scale(1.1);
+}
 </style>
 </head>
 
@@ -187,17 +217,18 @@ button {
 
 <!-- 🔥 START -->
 <div class="start" id="start">
-
   <div class="arrow">⬇</div>
 
   <img class="logo"
        src="{{ url_for('static', filename='images/logo.png') }}"
        onclick="openCard()">
-
 </div>
 
 <!-- 🔥 CARD -->
 <div class="card" id="card">
+
+  <!-- 🔴 X ADAUGAT -->
+  <div class="close-btn" onclick="closeCard()">✕</div>
 
   <div class="card-header">
     <img src="{{ url_for('static', filename='images/logo.png') }}">
@@ -242,6 +273,11 @@ button {
 function openCard() {
   document.getElementById("start").style.display = "none";
   document.getElementById("card").classList.add("active");
+}
+
+function closeCard() {
+  document.getElementById("card").classList.remove("active");
+  document.getElementById("start").style.display = "flex";
 }
 
 function verificaVarsta() {
