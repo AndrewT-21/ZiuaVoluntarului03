@@ -33,16 +33,16 @@ body::before {
 
   background: white;
   border-radius: 16px;
-  overflow: hidden;
+  overflow: hidden; /* 🔥 fără scroll */
   box-shadow: 0 10px 30px rgba(0,0,0,0.3);
 
-  padding-bottom: 10px; /* 🔥 mai înalt */
+  padding-bottom: 30px;
 }
 
 /* HEADER */
 .card-header {
   background: linear-gradient(135deg, #ff4b2b, #900000);
-  padding: 20px; /* 🔥 puțin mai mare */
+  padding: 30px; /* 🔥 puțin mai mare */
   text-align: center;
   color: white;
 }
@@ -54,7 +54,7 @@ body::before {
 /* IMAGE */
 .post-image {
   width: 100%;
-  height: 170px; /* 🔥 puțin mai mare */
+  height: 250px; /* 🔥 puțin mai mare */
   object-fit: cover;
 }
 
@@ -68,33 +68,35 @@ form {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-bottom: 12px; /* 🔥 mai aerisit */
+  margin-bottom: 18px; /* 🔥 mai aerisit */
 }
 
 .row label {
-  flex: 0 0 35%;
+  flex: 0 0 20%;
   font-size: 13px;
   font-weight: bold;
 }
 
 .row input {
   flex: 1;
-  padding: 10px 12px; /* 🔥 mai mare desktop */
-  border-radius: 8px;
+  padding: 12px 14px; /* 🔥 mai mare desktop */
+  border-radius: 10px;
   border: 1px solid #ddd;
-  font-size: 14px;
+  font-size: 15px;
 }
 
 /* BUTTON */
 button {
-  width: 100%;
-  padding: 13px;
+  width: 80%;
+  padding: 16px;
   background: #900000;
   color: white;
   border: none;
-  border-radius: 8px;
-  font-size: 15px;
+  border-radius:12px;
+  font-size: 16px;
   cursor: pointer;
+  display: block;
+  margin: 30px auto 10px;
 }
 
 /* MINORI */
@@ -110,8 +112,9 @@ button {
   .card {
     width: 92%;
     max-width: 400px;
-    max-height: 85vh;
-    overflow-y: auto;
+
+    max-height: 90vh;
+    overflow-y: auto; /* 🔥 scroll activ */
   }
 
   .card-header {
@@ -127,7 +130,7 @@ button {
   }
 
   form {
-    padding: 10px;
+    padding: 30px;
   }
 
   .row {
@@ -142,7 +145,7 @@ button {
   }
 
   .row input {
-    width: 100%;
+    width: 90%;
     font-size: 12px;
     padding: 6px 8px; /* 🔥 MAI MIC */
     border-radius: 6px;
