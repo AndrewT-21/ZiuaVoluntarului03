@@ -2,57 +2,102 @@
 <html lang="ro">
 <head>
 <meta charset="UTF-8">
-<title>Vizualizare</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dashboard înscrieri</title>
 
 <style>
 body {
-  font-family: Arial;
-  background: #900000;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #900000, #3b0000);
   color: white;
+}
+
+/* HEADER */
+.header {
   text-align: center;
-  padding: 10px;
+  padding: 25px 10px;
 }
 
-table {
-  width: 95%;
-  max-width: 1000px;
-  margin: auto;
-  border-collapse: collapse;
+.header h1 {
+  margin: 0;
+  font-size: 26px;
+}
+
+.header a {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 10px 16px;
   background: white;
-  color: black;
-  overflow-x: auto;
-  display: block;
+  color: #900000;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: bold;
 }
 
-/* FACE TABLE SCROLL PE TELEFON */
-table thead,
-table tbody {
-  display: table;
+/* WRAPPER */
+.table-container {
+  width: 95%;
+  max-width: 1200px;
+  margin: auto;
+  overflow-x: auto;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+/* TABLE */
+table {
   width: 100%;
+  border-collapse: collapse;
+  min-width: 800px;
 }
 
 th, td {
-  padding: 10px;
-  border: 1px solid #ddd;
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+  text-align: left;
   font-size: 14px;
+  color: #333;
 }
 
 th {
-  background: #600000;
+  background: #900000;
+  color: white;
+  position: sticky;
+  top: 0;
+}
+
+/* ROW HOVER */
+tr:hover {
+  background: #f5f5f5;
+}
+
+/* BADGE */
+.badge {
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 12px;
   color: white;
 }
 
-/* 🔥 MOBILE */
+.yes {
+  background: green;
+}
+
+.no {
+  background: gray;
+}
+
+/* MOBILE */
 @media (max-width: 768px) {
   th, td {
     font-size: 12px;
     padding: 8px;
   }
 
-  table {
-    font-size: 12px;
-    overflow-x: auto;
-    display: block;
+  .header h1 {
+    font-size: 20px;
   }
 }
 </style>
@@ -60,11 +105,14 @@ th {
 
 <body>
 
-<h1>Lista înscrieri</h1>
+<div class="header">
+  <h1>📋 Lista înscrieri</h1>
+  <a href="/export">⬇ Export CSV</a>
+</div>
 
-<a href="/export" style="color:white;">Export CSV</a>
-
+<div class="table-container">
 <table>
+
 <tr>
 <th>ID</th>
 <th>Nume</th>
@@ -87,11 +135,18 @@ th {
 <td>{{ row[5] }}</td>
 <td>{{ row[6] }}</td>
 <td>{{ row[7] }}</td>
-<td>{{ 'Da' if row[8] else 'Nu' }}</td>
+<td>
+  {% if row[8] %}
+    <span class="badge yes">Da</span>
+  {% else %}
+    <span class="badge no">Nu</span>
+  {% endif %}
+</td>
 </tr>
 {% endfor %}
 
 </table>
+</div>
 
 </body>
 </html>
