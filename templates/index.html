@@ -251,6 +251,10 @@ function newEntry() {
   document.getElementById("inscriereForm").style.display = "block";
   document.getElementById("inscriereForm").reset();
 }
+  
+  function restartForm() {
+  location.reload(); 
+}
 
 document.getElementById("inscriereForm").addEventListener("submit", async function(e) {
   e.preventDefault();
