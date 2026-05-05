@@ -1,24 +1,20 @@
-from flask import Flask, request, render_template, Response
+from flask import Flask, request, render_template, redirect, Response
 import psycopg2
-import os
+import csv
 
 app = Flask(__name__)
 
-# 🔥 Render DB URL
-DATABASE_URL = os.environ.get("DATABASE_URL")
-
-
-def get_conn():
-    return psycopg2.connect(
-        DATABASE_URL,
-        sslmode="require"
-    )
-
+conn = psycopg2.connect(
+    host="localhost",
+    database="postgres",
+    user="postgres",
+    password="andrew"
+)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
-        nume = request.form.get('nume')
+        nume_familie = request.form.get('nume')
         prenume = request.form.get('prenume')
         varsta = int(request.form.get('varsta', 0))
         telefon = request.form.get('telefon')
@@ -26,65 +22,69 @@ def index():
         oras = request.form.get('oras')
         email = request.form.get('email')
 
-        # logic corect
-        if varsta < 18:
-            acord_parinti = True if request.form.get('acord-parinti') == '1' else False
-        else:
+        if varsta >= 18:
             acord_parinti = True
+        else:
+            acord_parinti = True if request.form.get('acord-parinti') == '1' else False
 
-        conn = get_conn()
-        cur = conn.cursor()
+        try:
+            cur = conn.cursor()
+            cur.execute("""
+                INSERT INTO inscrieri 
+                (nume_familie, prenume, varsta, telefon, judet, oras, email, acord_parinti)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+            """, (nume_familie, prenume, varsta, telefon, judet, oras, email, acord_parinti))
 
-        cur.execute("""
-            INSERT INTO inscrieri
-            (nume_familie, prenume, varsta, telefon, judet, oras, email, acord_parinti)
-            VALUES (%s,%s,%s,%s,%s,%s,%s,%s)
-        """, (nume, prenume, varsta, telefon, judet, oras, email, acord_parinti))
+            conn.commit()
+            cur.close()
 
-        conn.commit()
-        cur.close()
-        conn.close()
+            return "success"
 
-        return "Succes!"
+        except Exception as e:
+            return f"Eroare: {e}"
 
     return render_template('index.html')
 
 
+# 🔐 Protectie simpla
+def check_auth(username, password):
+    return username == "admin" and password == "1234"
+
+def authenticate():
+    return Response(
+        'Acces interzis!', 401,
+        {'WWW-Authenticate': 'Basic realm="Login Required"'}
+    )
+
 @app.route('/vizualizare')
 def vizualizare():
-    conn = get_conn()
+    auth = request.authorization
+    if not auth or not check_auth(auth.username, auth.password):
+        return authenticate()
+
     cur = conn.cursor()
-
-    cur.execute("SELECT * FROM inscrieri ORDER BY id DESC")
+    cur.execute("SELECT * FROM inscrieri ORDER BY created_at DESC")
     inscrieri = cur.fetchall()
-
     cur.close()
-    conn.close()
 
     return render_template('vizualizare.html', inscrieri=inscrieri)
 
 
 @app.route('/export')
 def export():
-    conn = get_conn()
     cur = conn.cursor()
-
     cur.execute("SELECT * FROM inscrieri")
     rows = cur.fetchall()
-
     cur.close()
-    conn.close()
 
     def generate():
         for row in rows:
             yield ','.join(map(str, row)) + '\n'
 
-    return Response(
-        generate(),
-        mimetype='text/csv',
-        headers={"Content-Disposition": "attachment;filename=inscrieri.csv"}
-    )
+    return Response(generate(),
+                    mimetype='text/csv',
+                    headers={"Content-Disposition": "attachment;filename=inscrieri.csv"})
 
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=5000)
+    app.run(debug=True)
