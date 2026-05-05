@@ -35,12 +35,14 @@ body::before {
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+
+  padding-bottom: 10px; /* 🔥 mai înalt */
 }
 
 /* HEADER */
 .card-header {
   background: linear-gradient(135deg, #ff4b2b, #900000);
-  padding: 18px;
+  padding: 20px; /* 🔥 puțin mai mare */
   text-align: center;
   color: white;
 }
@@ -52,13 +54,13 @@ body::before {
 /* IMAGE */
 .post-image {
   width: 100%;
-  height: 160px;
+  height: 170px; /* 🔥 puțin mai mare */
   object-fit: cover;
 }
 
 /* FORM */
 form {
-  padding: 18px;
+  padding: 20px; /* 🔥 mai aerisit */
 }
 
 /* ROW */
@@ -66,7 +68,7 @@ form {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 12px; /* 🔥 mai aerisit */
 }
 
 .row label {
@@ -77,16 +79,16 @@ form {
 
 .row input {
   flex: 1;
-  padding: 8px 10px;
+  padding: 10px 12px; /* 🔥 mai mare desktop */
   border-radius: 8px;
   border: 1px solid #ddd;
-  font-size: 13px;
+  font-size: 14px;
 }
 
 /* BUTTON */
 button {
   width: 100%;
-  padding: 12px;
+  padding: 13px;
   background: #900000;
   color: white;
   border: none;
@@ -107,47 +109,48 @@ button {
 
   .card {
     width: 92%;
-    max-width: 420px;
-    max-height: 80vh;
+    max-width: 400px;
+    max-height: 85vh;
     overflow-y: auto;
   }
 
   .card-header {
-    padding: 12px;
+    padding: 10px;
   }
 
   .card-header h2 {
-    font-size: 16px;
+    font-size: 15px;
   }
 
   .post-image {
-    height: 110px;
+    height: 95px; /* 🔥 mai mic */
   }
 
   form {
-    padding: 12px;
+    padding: 10px;
   }
 
   .row {
     flex-direction: column;
     align-items: flex-start;
-    margin-bottom: 6px;
+    margin-bottom: 5px; /* 🔥 mai compact */
   }
 
   .row label {
     width: 100%;
-    font-size: 11px;
+    font-size: 10px;
   }
 
   .row input {
     width: 100%;
-    font-size: 13px;
-    padding: 7px;
+    font-size: 12px;
+    padding: 6px 8px; /* 🔥 MAI MIC */
+    border-radius: 6px;
   }
 
   button {
-    padding: 10px;
-    font-size: 14px;
+    padding: 9px;
+    font-size: 13px;
   }
 }
 </style>
@@ -217,7 +220,6 @@ function verificaVarsta() {
     (v && parseInt(v) < 18) ? "block" : "none";
 }
 
-/* SUBMIT */
 document.getElementById("inscriereForm").addEventListener("submit", async function(e) {
   e.preventDefault();
 
