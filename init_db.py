@@ -1,11 +1,12 @@
 import psycopg2
 
 conn = psycopg2.connect(
-    host="dpg-d7sjr3f7f7vs73d4dcog-a",
+    host="dpg-d7sjr3f7f7vs73d4dcog-a.oregon-postgres.render.com",
     database="formular_qzzi",
     user="formular_user",
     password="AFvqFyk7AEi7IuTBrYB35rHguAXu7A4w",
-    port=5432
+    port=5432,
+    sslmode="require"
 )
 
 cur = conn.cursor()
@@ -26,3 +27,5 @@ CREATE TABLE IF NOT EXISTS inscrieri (
 
 conn.commit()
 conn.close()
+
+print("✔ Tabel creat cu succes")
