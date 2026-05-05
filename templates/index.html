@@ -92,21 +92,32 @@ form {
   padding: 20px;
 }
 
-label {
+/* 🔥 FIX LINIE PERFECTĂ */
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.row label {
+  flex: 0 0 30%;
   font-size: 12px;
   font-weight: bold;
 }
 
-input {
-  width: 70%;
-  padding: 10px;
-  margin: 0 auto 10px auto;
-  display: block;
+.row input {
+  flex: 1;
+  width: 100%;
+  padding: 8px 10px;
   border-radius: 8px;
   border: 1px solid #ddd;
   box-sizing: border-box;
+  font-size: 13px;
 }
-  
+
+/* BUTTON */
 button {
   width: 100%;
   padding: 12px;
@@ -117,12 +128,14 @@ button {
   cursor: pointer;
 }
 
+/* IMAGE */
 .post-image {
   width: 100%;
   height: 180px;
   object-fit: cover;
 }
 
+/* MINORI */
 #text-minori {
   display: none;
   font-size: 12px;
@@ -145,7 +158,7 @@ button {
   cursor: pointer;
 }
 
-/* bounce */
+/* ANIM */
 @keyframes bounce {
   0%,100% { transform: translateY(0); }
   50% { transform: translateY(-6px); }
@@ -153,6 +166,17 @@ button {
 
 /* MOBILE */
 @media (max-width: 480px) {
+  .row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .row label,
+  .row input {
+    flex: none;
+    width: 100%;
+  }
+
   .card {
     max-width: 100%;
     width: 100%;
@@ -190,29 +214,42 @@ button {
 
   <img class="post-image" src="{{ url_for('static', filename='images/1.jpg') }}">
 
-  <!-- FORM -->
   <form id="inscriereForm">
 
-    <label>Nume</label>
-    <input name="nume" required>
+    <div class="row">
+      <label>Nume</label>
+      <input name="nume" required>
+    </div>
 
-    <label>Prenume</label>
-    <input name="prenume" required>
+    <div class="row">
+      <label>Prenume</label>
+      <input name="prenume" required>
+    </div>
 
-    <label>Vârstă</label>
-    <input type="number" id="varsta" name="varsta" oninput="verificaVarsta()" required>
+    <div class="row">
+      <label>Vârstă</label>
+      <input type="number" id="varsta" name="varsta" oninput="verificaVarsta()" required>
+    </div>
 
-    <label>Telefon</label>
-    <input name="telefon" required>
+    <div class="row">
+      <label>Telefon</label>
+      <input name="telefon" required>
+    </div>
 
-    <label>Județ</label>
-    <input name="judet" required>
+    <div class="row">
+      <label>Județ</label>
+      <input name="judet" required>
+    </div>
 
-    <label>Oraș</label>
-    <input name="oras" required>
+    <div class="row">
+      <label>Oraș</label>
+      <input name="oras" required>
+    </div>
 
-    <label>Email</label>
-    <input name="email" required>
+    <div class="row">
+      <label>Email</label>
+      <input name="email" required>
+    </div>
 
     <div id="text-minori">
       <input type="checkbox" name="acord-parinti" value="1">
@@ -241,7 +278,6 @@ function verificaVarsta() {
     (v && parseInt(v) < 18) ? "block" : "none";
 }
 
-/* SUBMIT */
 document.getElementById("inscriereForm").addEventListener("submit", async function(e) {
   e.preventDefault();
 
@@ -256,9 +292,9 @@ document.getElementById("inscriereForm").addEventListener("submit", async functi
     document.getElementById("card").innerHTML = `
       <div style="padding:40px;text-align:center;">
         <h2>✔ Înscriere reușită</h2>
-        <p>Mulțumim! Te-ai înregistrat cu succes la Ziua Voluntarului 03.</p>
+        <p>Mulțumim! Te-ai înregistrat cu succes.</p>
 
-        <button onclick="restartForm()" style="
+        <button onclick="location.reload()" style="
           margin-top:20px;
           padding:12px 18px;
           border:none;
@@ -272,11 +308,6 @@ document.getElementById("inscriereForm").addEventListener("submit", async functi
     `;
   }
 });
-  
-/* restart corect */
-function restartForm() {
-  location.reload();
-}
 </script>
 
 </body>
