@@ -10,7 +10,7 @@ conn = psycopg2.connect(
 cur = conn.cursor()
 
 cur.execute("""
-CREATE TABLE IF NOT EXISTS inscriere (
+CREATE TABLE IF NOT EXISTS formular (
     id SERIAL PRIMARY KEY,
     nume_familie TEXT NOT NULL,
     prenume TEXT NOT NULL,
