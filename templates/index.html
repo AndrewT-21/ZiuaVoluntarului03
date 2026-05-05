@@ -13,7 +13,6 @@ body {
   min-height: 100vh;
 }
 
-/* overlay */
 body::before {
   content: "";
   position: fixed;
@@ -65,7 +64,7 @@ body::before {
 
   opacity: 0;
   pointer-events: none;
-  transition: all 0.8s ease;
+  transition: all 0.4s ease;
 }
 
 .card.active {
@@ -104,10 +103,8 @@ input {
   margin-bottom: 10px;
   border-radius: 8px;
   border: 1px solid #ddd;
-  font-size: 14px;
 }
 
-/* BUTTON */
 button {
   width: 100%;
   padding: 12px;
@@ -115,24 +112,22 @@ button {
   color: white;
   border: none;
   border-radius: 8px;
-  font-size: 16px;
+  cursor: pointer;
 }
 
-/* POST IMAGE */
 .post-image {
   width: 100%;
   height: 180px;
   object-fit: cover;
 }
 
-/* MINORI */
 #text-minori {
   display: none;
   font-size: 12px;
   margin-bottom: 10px;
 }
 
-/* X BUTTON */
+/* X */
 .close-btn {
   position: absolute;
   top: 10px;
@@ -148,7 +143,7 @@ button {
   cursor: pointer;
 }
 
-/* ANIM */
+/* bounce */
 @keyframes bounce {
   0%,100% { transform: translateY(0); }
   50% { transform: translateY(-6px); }
@@ -159,8 +154,8 @@ button {
   .card {
     max-width: 100%;
     width: 100%;
-    bottom: 0;
     top: auto;
+    bottom: 0;
     left: 0;
     transform: none;
     border-radius: 18px 18px 0 0;
@@ -177,15 +172,11 @@ button {
 
 <body>
 
-<!-- START -->
 <div class="start" id="start">
   <div class="arrow">⬇</div>
-  <img class="logo"
-       src="{{ url_for('static', filename='images/logo.png') }}"
-       onclick="openCard()">
+  <img class="logo" src="{{ url_for('static', filename='images/logo.png') }}" onclick="openCard()">
 </div>
 
-<!-- CARD -->
 <div class="card" id="card">
 
   <div class="close-btn" onclick="closeCard()">✕</div>
@@ -197,6 +188,7 @@ button {
 
   <img class="post-image" src="{{ url_for('static', filename='images/1.jpg') }}">
 
+  <!-- FORM -->
   <form id="inscriereForm">
 
     <label>Nume</label>
@@ -218,7 +210,7 @@ button {
     <input name="oras" required>
 
     <label>Email</label>
-    <input type="email" name="email" required>
+    <input name="email" required>
 
     <div id="text-minori">
       <input type="checkbox" name="acord-parinti" value="1">
@@ -227,11 +219,10 @@ button {
 
     <button type="submit">Înscrie-te</button>
   </form>
+
 </div>
 
 <script>
-  const originalCardHTML = document.getElementById("card").innerHTML;
-  
 function openCard() {
   document.getElementById("start").style.display = "none";
   document.getElementById("card").classList.add("active");
@@ -248,55 +239,9 @@ function verificaVarsta() {
     (v && parseInt(v) < 18) ? "block" : "none";
 }
 
-function newEntry() {
-  document.getElementById("card").classList.add("active");
-  document.getElementById("inscriereForm").style.display = "block";
-  document.getElementById("inscriereForm").reset();
-}
-  
-  function restartForm() {
-  // reset formular
-  document.getElementById("inscriereForm").reset();
-
-  // refacem UI-ul inițial
-  document.getElementById("card").innerHTML = originalCardHTML;
-
-  // reactualizăm event-ul pe formular
-  attachFormEvent();
-
-  // arătăm cardul din nou
-  document.getElementById("card").classList.add("active");
-
-  // ascundem start screen dacă e nevoie
-  document.getElementById("start").style.display = "none";
-}
-
-function attachFormEvent() {
-  document.getElementById("inscriereForm").addEventListener("submit", async function(e) {
-    e.preventDefault();
-
-    const formData = new FormData(this);
-
-    const res = await fetch("/", {
-      method: "POST",
-      body: formData
-    });
-
-    if (res.ok) {
-      document.querySelector(".card").innerHTML = `
-        <div style="padding:40px;text-align:center;">
-          <h2>✔ Înscriere reușită</h2>
-          <p>Mulțumim! Te-ai înregistrat cu succes.</p>
-
-          <button onclick="restartForm()" 
-            style="margin-top:20px;padding:12px 18px;border:none;border-radius:10px;background:#900000;color:white;cursor:pointer;">
-            ➕ Altă înregistrare
-          </button>
-        </div>
-      `;
-    }
-  });
-}
+/* SUBMIT */
+document.getElementById("inscriereForm").addEventListener("submit", async function(e) {
+  e.preventDefault();
 
   const formData = new FormData(this);
 
@@ -306,31 +251,30 @@ function attachFormEvent() {
   });
 
   if (res.ok) {
-    document.querySelector(".card").innerHTML = `
-  <div style="padding:40px;text-align:center; position:relative;">
+    document.getElementById("card").innerHTML = `
+      <div style="padding:40px;text-align:center;">
+        <h2>✔ Înscriere reușită</h2>
+        <p>Mulțumim! Te-ai înregistrat cu succes.</p>
 
-    <h2>✔ Înscriere reușită</h2>
-    <p>Mulțumim! Te-ai înregistrat cu succes.</p>
-
-    <button onclick="restartForm()" 
-      style="
-        margin-top:20px;
-        padding:12px 18px;
-        border:none;
-        border-radius:10px;
-        background:#900000;
-        color:white;
-        font-weight:bold;
-        cursor:pointer;
-      ">
-      ➕ Altă înregistrare
-    </button>
-
-  </div>
-`;
+        <button onclick="restartForm()" style="
+          margin-top:20px;
+          padding:12px 18px;
+          border:none;
+          border-radius:10px;
+          background:#900000;
+          color:white;
+          cursor:pointer;">
+          ➕ Altă înregistrare
+        </button>
+      </div>
+    `;
   }
 });
-  attachFormEvent();
+
+/* restart corect */
+function restartForm() {
+  location.reload();
+}
 </script>
 
 </body>
