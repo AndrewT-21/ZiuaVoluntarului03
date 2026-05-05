@@ -20,39 +20,12 @@ body::before {
   background: rgba(0,0,0,0.6);
 }
 
-/* START */
-.start {
-  position: absolute;
-  top: 3%;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  z-index: 10;
-}
-
-.arrow {
-  font-size: 42px;
-  color: white;
-  animation: bounce 1s infinite;
-  margin-bottom: 6px;
-}
-
-.logo {
-  width: 95px;
-  height: 95px;
-  border-radius: 50%;
-  cursor: pointer;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-}
-
 /* CARD */
 .card {
   position: fixed;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -60%) scale(0.95);
+  transform: translate(-50%, -50%);
 
   width: 100%;
   max-width: 520px;
@@ -61,16 +34,6 @@ body::before {
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-
-  opacity: 0;
-  pointer-events: none;
-  transition: all 0.4s ease;
-}
-
-.card.active {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translate(-50%, -50%) scale(1);
 }
 
 /* HEADER */
@@ -92,7 +55,7 @@ form {
   padding: 20px;
 }
 
-/* 🔥 FIX LINIE PERFECTĂ */
+/* LINIE FORM */
 .row {
   display: flex;
   align-items: center;
@@ -113,8 +76,8 @@ form {
   padding: 8px 10px;
   border-radius: 8px;
   border: 1px solid #ddd;
-  box-sizing: border-box;
   font-size: 13px;
+  box-sizing: border-box;
 }
 
 /* BUTTON */
@@ -142,28 +105,6 @@ button {
   margin-bottom: 10px;
 }
 
-/* X */
-.close-btn {
-  position: absolute;
-  top: 10px;
-  right: 12px;
-  width: 34px;
-  height: 34px;
-  background: rgba(0,0,0,0.2);
-  color: white;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-}
-
-/* ANIM */
-@keyframes bounce {
-  0%,100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
-}
-
 /* MOBILE */
 @media (max-width: 480px) {
   .row {
@@ -173,7 +114,6 @@ button {
 
   .row label,
   .row input {
-    flex: none;
     width: 100%;
   }
 
@@ -185,12 +125,6 @@ button {
     left: 0;
     transform: none;
     border-radius: 18px 18px 0 0;
-    max-height: 85vh;
-    overflow-y: auto;
-  }
-
-  .card.active {
-    transform: translateY(0);
   }
 }
 </style>
@@ -198,14 +132,7 @@ button {
 
 <body>
 
-<div class="start" id="start">
-  <div class="arrow">⬇</div>
-  <img class="logo" src="{{ url_for('static', filename='images/logo.png') }}" onclick="openCard()">
-</div>
-
-<div class="card" id="card">
-
-  <div class="close-btn" onclick="closeCard()">✕</div>
+<div class="card">
 
   <div class="card-header">
     <img src="{{ url_for('static', filename='images/logo.png') }}">
@@ -253,7 +180,7 @@ button {
 
     <div id="text-minori">
       <input type="checkbox" name="acord-parinti" value="1">
-      Acordul părinților este obligatoriu!
+      Acord părinți obligatoriu
     </div>
 
     <button type="submit">Înscrie-te</button>
@@ -262,22 +189,13 @@ button {
 </div>
 
 <script>
-function openCard() {
-  document.getElementById("start").style.display = "none";
-  document.getElementById("card").classList.add("active");
-}
-
-function closeCard() {
-  document.getElementById("card").classList.remove("active");
-  document.getElementById("start").style.display = "flex";
-}
-
 function verificaVarsta() {
   let v = document.getElementById("varsta").value;
   document.getElementById("text-minori").style.display =
     (v && parseInt(v) < 18) ? "block" : "none";
 }
 
+/* SUBMIT */
 document.getElementById("inscriereForm").addEventListener("submit", async function(e) {
   e.preventDefault();
 
@@ -289,19 +207,13 @@ document.getElementById("inscriereForm").addEventListener("submit", async functi
   });
 
   if (res.ok) {
-    document.getElementById("card").innerHTML = `
+    document.querySelector(".card").innerHTML = `
       <div style="padding:40px;text-align:center;">
         <h2>✔ Înscriere reușită</h2>
         <p>Mulțumim! Te-ai înregistrat cu succes.</p>
 
-        <button onclick="location.reload()" style="
-          margin-top:20px;
-          padding:12px 18px;
-          border:none;
-          border-radius:10px;
-          background:#900000;
-          color:white;
-          cursor:pointer;">
+        <button onclick="location.reload()" 
+          style="margin-top:20px;padding:12px 18px;border:none;border-radius:10px;background:#900000;color:white;cursor:pointer;">
           ➕ Altă înregistrare
         </button>
       </div>
