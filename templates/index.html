@@ -13,7 +13,6 @@ body {
   min-height: 100vh;
 }
 
-/* overlay */
 body::before {
   content: "";
   position: fixed;
@@ -21,7 +20,7 @@ body::before {
   background: rgba(0,0,0,0.6);
 }
 
-/* 🔥 START SCREEN */
+/* START */
 .start {
   position: absolute;
   top: 3%;
@@ -33,7 +32,6 @@ body::before {
   z-index: 10;
 }
 
-/* săgeată */
 .arrow {
   font-size: 42px;
   color: white;
@@ -41,21 +39,14 @@ body::before {
   margin-bottom: 6px;
 }
 
-/* logo */
 .logo {
   width: 95px;
   height: 95px;
   border-radius: 50%;
   cursor: pointer;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-  transition: 0.2s;
 }
 
-.logo:active {
-  transform: scale(0.95);
-}
-
-/* 🔥 CARD */
+/* CARD */
 .card {
   position: fixed;
   top: 50%;
@@ -73,21 +64,13 @@ body::before {
   opacity: 0;
   pointer-events: none;
 
-  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.6s ease;
 }
 
 .card.active {
   opacity: 1;
   pointer-events: auto;
   transform: translate(-50%, -50%) scale(1);
-  animation: cascadeDrop 0.8s ease-out;
-}
-
-/* CASCADĂ */
-@keyframes cascadeDrop {
-  0% { transform: translate(-50%, -70%) scale(0.9); opacity: 0; }
-  60% { transform: translate(-50%, -45%) scale(1.02); opacity: 1; }
-  100% { transform: translate(-50%, -50%) scale(1); }
 }
 
 /* HEADER */
@@ -102,17 +85,11 @@ body::before {
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  margin-bottom: 10px;
 }
 
 /* FORM */
 form {
   padding: 20px;
-}
-
-label {
-  font-size: 12px;
-  font-weight: bold;
 }
 
 input {
@@ -121,11 +98,8 @@ input {
   margin-bottom: 10px;
   border-radius: 8px;
   border: 1px solid #ddd;
-  font-size: 14px;
-  box-sizing: border-box;
 }
 
-/* BUTTON */
 button {
   width: 100%;
   padding: 12px;
@@ -133,89 +107,48 @@ button {
   color: white;
   border: none;
   border-radius: 8px;
-  font-size: 16px;
   cursor: pointer;
 }
 
-/* IMAGE */
-.post-image {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
+/* CLOSE */
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  font-size: 20px;
+  color: white;
+  cursor: pointer;
 }
 
-/* MINORI */
-#text-minori {
-  display: none;
-  font-size: 12px;
-  margin-bottom: 10px;
-}
-
-/* animație săgeată */
+/* ANIM */
 @keyframes bounce {
   0%,100% { transform: translateY(0); }
   50% { transform: translateY(-6px); }
 }
 
-/* 📱 MOBILE FIX */
+/* MOBILE */
 @media (max-width: 480px) {
-
   .card {
-    max-width: 100%;
     width: 100%;
-    top: auto;
     bottom: 0;
+    top: auto;
     left: 0;
     transform: none;
-
-    border-radius: 18px 18px 0 0;
     max-height: 85vh;
     overflow-y: auto;
+    border-radius: 18px 18px 0 0;
   }
 
   .card.active {
     transform: translateY(0);
   }
 }
-
-/* =======================
-   🔴 X BUTTON (ADAUGAT)
-======================= */
-.close-btn {
-  position: absolute;
-  top: 10px;
-  right: 12px;
-
-  width: 34px;
-  height: 34px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  font-size: 18px;
-  font-weight: bold;
-
-  background: rgba(0,0,0,0.2);
-  color: white;
-
-  border-radius: 50%;
-  cursor: pointer;
-  z-index: 999;
-
-  transition: 0.2s;
-}
-
-.close-btn:hover {
-  background: rgba(0,0,0,0.4);
-  transform: scale(1.1);
-}
 </style>
 </head>
 
 <body>
 
-<!-- 🔥 START -->
+<!-- START -->
 <div class="start" id="start">
   <div class="arrow">⬇</div>
 
@@ -224,10 +157,9 @@ button {
        onclick="openCard()">
 </div>
 
-<!-- 🔥 CARD -->
+<!-- CARD -->
 <div class="card" id="card">
 
-  <!-- 🔴 X ADAUGAT -->
   <div class="close-btn" onclick="closeCard()">✕</div>
 
   <div class="card-header">
@@ -235,38 +167,20 @@ button {
     <h2>Ziua Voluntarului 03</h2>
   </div>
 
-  <img class="post-image" src="{{ url_for('static', filename='images/1.jpg') }}">
+  <!-- 🔥 FORM CORECT -->
+  <form method="POST" action="/">
 
-  <form id="inscriereForm">
-
-    <label>Nume</label>
-    <input name="nume" required>
-
-    <label>Prenume</label>
-    <input name="prenume" required>
-
-    <label>Vârstă</label>
-    <input type="number" id="varsta" name="varsta" oninput="verificaVarsta()" required>
-
-    <label>Telefon</label>
-    <input name="telefon" required>
-
-    <label>Județ</label>
-    <input name="judet" required>
-
-    <label>Oraș</label>
-    <input name="oras" required>
-
-    <label>Email</label>
-    <input type="email" name="email" required>
-
-    <div id="text-minori">
-      <input type="checkbox" name="acord-parinti" value="1">
-      Părinții sunt de acord
-    </div>
+    <input name="nume" placeholder="Nume" required>
+    <input name="prenume" placeholder="Prenume" required>
+    <input type="number" name="varsta" placeholder="Vârstă" required>
+    <input name="telefon" placeholder="Telefon" required>
+    <input name="judet" placeholder="Județ" required>
+    <input name="oras" placeholder="Oraș" required>
+    <input type="email" name="email" placeholder="Email" required>
 
     <button type="submit">Înscrie-te</button>
   </form>
+
 </div>
 
 <script>
@@ -279,32 +193,6 @@ function closeCard() {
   document.getElementById("card").classList.remove("active");
   document.getElementById("start").style.display = "flex";
 }
-
-function verificaVarsta() {
-  let v = document.getElementById("varsta").value;
-  document.getElementById("text-minori").style.display =
-    (v && parseInt(v) < 18) ? "block" : "none";
-}
-
-document.getElementById("inscriereForm").addEventListener("submit", async function(e) {
-  e.preventDefault();
-
-  const formData = new FormData(this);
-
-  const res = await fetch("/", {
-    method: "POST",
-    body: formData
-  });
-
-  if (res.ok) {
-    document.querySelector(".card").innerHTML = `
-      <div style="padding:40px;text-align:center;">
-        <h2>✔ Înscriere reușită</h2>
-        <p>Mulțumim! Te-ai înregistrat cu succes.</p>
-      </div>
-    `;
-  }
-});
 </script>
 
 </body>
