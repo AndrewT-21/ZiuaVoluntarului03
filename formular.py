@@ -5,10 +5,10 @@ import csv
 app = Flask(__name__)
 
 conn = psycopg2.connect(
-    host="localhost",
-    database="postgres",
-    user="postgres",
-    password="andrew"
+    host="dpg-d7sjr3f7f7vs73d4dcog-a.oregon-postgres.render.com",
+    database="formular_qzzi",
+    user="formular_user",
+    password="AFvqFyk7AEi7IuTBrYB35rHguAXu7A4w"
 )
 
 @app.route('/', methods=['GET', 'POST'])
