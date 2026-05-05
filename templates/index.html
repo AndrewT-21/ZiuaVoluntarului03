@@ -230,6 +230,8 @@ button {
 </div>
 
 <script>
+  const originalCardHTML = document.getElementById("card").innerHTML;
+  
 function openCard() {
   document.getElementById("start").style.display = "none";
   document.getElementById("card").classList.add("active");
@@ -253,11 +255,48 @@ function newEntry() {
 }
   
   function restartForm() {
-  location.reload(); 
+  // reset formular
+  document.getElementById("inscriereForm").reset();
+
+  // refacem UI-ul inițial
+  document.getElementById("card").innerHTML = originalCardHTML;
+
+  // reactualizăm event-ul pe formular
+  attachFormEvent();
+
+  // arătăm cardul din nou
+  document.getElementById("card").classList.add("active");
+
+  // ascundem start screen dacă e nevoie
+  document.getElementById("start").style.display = "none";
 }
 
-document.getElementById("inscriereForm").addEventListener("submit", async function(e) {
-  e.preventDefault();
+function attachFormEvent() {
+  document.getElementById("inscriereForm").addEventListener("submit", async function(e) {
+    e.preventDefault();
+
+    const formData = new FormData(this);
+
+    const res = await fetch("/", {
+      method: "POST",
+      body: formData
+    });
+
+    if (res.ok) {
+      document.querySelector(".card").innerHTML = `
+        <div style="padding:40px;text-align:center;">
+          <h2>✔ Înscriere reușită</h2>
+          <p>Mulțumim! Te-ai înregistrat cu succes.</p>
+
+          <button onclick="restartForm()" 
+            style="margin-top:20px;padding:12px 18px;border:none;border-radius:10px;background:#900000;color:white;cursor:pointer;">
+            ➕ Altă înregistrare
+          </button>
+        </div>
+      `;
+    }
+  });
+}
 
   const formData = new FormData(this);
 
@@ -291,6 +330,7 @@ document.getElementById("inscriereForm").addEventListener("submit", async functi
 `;
   }
 });
+  attachFormEvent();
 </script>
 
 </body>
