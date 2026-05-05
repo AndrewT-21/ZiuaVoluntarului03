@@ -148,24 +148,6 @@ button {
   cursor: pointer;
 }
 
-/* ALTĂ ÎNREGISTRARE BUTTON */
-.new-entry {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-
-  background: white;
-  color: #900000;
-
-  padding: 10px 14px;
-  border-radius: 12px;
-
-  font-weight: bold;
-  cursor: pointer;
-
-  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-}
-
 /* ANIM */
 @keyframes bounce {
   0%,100% { transform: translateY(0); }
@@ -247,9 +229,6 @@ button {
   </form>
 </div>
 
-<!-- BUTON NOU -->
-<div class="new-entry" onclick="newEntry()">➕ Altă înregistrare</div>
-
 <script>
 function openCard() {
   document.getElementById("start").style.display = "none";
@@ -285,11 +264,27 @@ document.getElementById("inscriereForm").addEventListener("submit", async functi
 
   if (res.ok) {
     document.querySelector(".card").innerHTML = `
-      <div style="padding:40px;text-align:center;">
-        <h2>✔ Înscriere reușită</h2>
-        <p>Mulțumim!</p>
-      </div>
-    `;
+  <div style="padding:40px;text-align:center; position:relative;">
+
+    <h2>✔ Înscriere reușită</h2>
+    <p>Mulțumim! Te-ai înregistrat cu succes.</p>
+
+    <button onclick="restartForm()" 
+      style="
+        margin-top:20px;
+        padding:12px 18px;
+        border:none;
+        border-radius:10px;
+        background:#900000;
+        color:white;
+        font-weight:bold;
+        cursor:pointer;
+      ">
+      ➕ Altă înregistrare
+    </button>
+
+  </div>
+`;
   }
 });
 </script>
