@@ -1,40 +1,25 @@
 import os
-from flask import Flask, request, render_template, redirect
+from flask import Flask, request, render_template
 import psycopg2
 
 app = Flask(__name__)
 
-# 🔥 ia URL-ul din Render Environment Variables
 DATABASE_URL = os.environ.get("DATABASE_URL")
 
-# 🔥 conexiune PostgreSQL cu SSL corect (OBLIGATORIU pe Render)
-conn = psycopg2.connect(
-    DATABASE_URL,
-    sslmode="require"
-)
 
-cur = conn.cursor()
-
-# 🔥 creare tabel (dacă nu există)
-cur.execute("""
-CREATE TABLE IF NOT EXISTS inscriere (
-    id SERIAL PRIMARY KEY,
-    nume_familie TEXT NOT NULL,
-    prenume TEXT NOT NULL,
-    varsta INTEGER NOT NULL,
-    telefon TEXT NOT NULL,
-    judet TEXT NOT NULL,
-    oras TEXT NOT NULL,
-    email TEXT NOT NULL,
-    acord_parinti INTEGER
-)
-""")
-
-conn.commit()
+# 🔥 NU mai conectezi aici global
+def get_conn():
+    return psycopg2.connect(
+        DATABASE_URL,
+        sslmode="require"
+    )
 
 
 @app.route("/", methods=["GET", "POST"])
 def home():
+    conn = get_conn()
+    cur = conn.cursor()
+
     if request.method == "POST":
         nume = request.form["nume"]
         prenume = request.form["prenume"]
@@ -52,16 +37,24 @@ def home():
         """, (nume, prenume, varsta, telefon, judet, oras, email, acord))
 
         conn.commit()
+        conn.close()
 
         return render_template("success.html")
 
+    conn.close()
     return render_template("formular.html")
 
 
 @app.route("/inscrieri")
 def inscrieri():
+    conn = get_conn()
+    cur = conn.cursor()
+
     cur.execute("SELECT * FROM inscriere ORDER BY id DESC")
     data = cur.fetchall()
+
+    conn.close()
+
     return str(data)
 
 
