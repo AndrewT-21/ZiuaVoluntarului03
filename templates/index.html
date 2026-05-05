@@ -13,6 +13,7 @@ body {
   min-height: 100vh;
 }
 
+/* overlay */
 body::before {
   content: "";
   position: fixed;
@@ -45,11 +46,6 @@ body::before {
   border-radius: 50%;
   cursor: pointer;
   box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-  transition: 0.2s;
-}
-
-.logo:active {
-  transform: scale(0.95);
 }
 
 /* CARD */
@@ -69,8 +65,7 @@ body::before {
 
   opacity: 0;
   pointer-events: none;
-
-  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.8s ease;
 }
 
 .card.active {
@@ -91,7 +86,6 @@ body::before {
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  margin-bottom: 10px;
 }
 
 /* FORM */
@@ -111,9 +105,9 @@ input {
   border-radius: 8px;
   border: 1px solid #ddd;
   font-size: 14px;
-  box-sizing: border-box;
 }
 
+/* BUTTON */
 button {
   width: 100%;
   padding: 12px;
@@ -122,15 +116,16 @@ button {
   border: none;
   border-radius: 8px;
   font-size: 16px;
-  cursor: pointer;
 }
 
+/* POST IMAGE */
 .post-image {
   width: 100%;
   height: 180px;
   object-fit: cover;
 }
 
+/* MINORI */
 #text-minori {
   display: none;
   font-size: 12px;
@@ -144,29 +139,46 @@ button {
   right: 12px;
   width: 34px;
   height: 34px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
-  font-weight: bold;
   background: rgba(0,0,0,0.2);
   color: white;
   border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
-  z-index: 999;
 }
 
-.close-btn:hover {
-  background: rgba(0,0,0,0.4);
+/* ALTĂ ÎNREGISTRARE BUTTON */
+.new-entry {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+
+  background: white;
+  color: #900000;
+
+  padding: 10px 14px;
+  border-radius: 12px;
+
+  font-weight: bold;
+  cursor: pointer;
+
+  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
 }
 
-/* mobile */
+/* ANIM */
+@keyframes bounce {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+/* MOBILE */
 @media (max-width: 480px) {
   .card {
     max-width: 100%;
     width: 100%;
-    top: auto;
     bottom: 0;
+    top: auto;
     left: 0;
     transform: none;
     border-radius: 18px 18px 0 0;
@@ -177,11 +189,6 @@ button {
   .card.active {
     transform: translateY(0);
   }
-}
-
-@keyframes bounce {
-  0%,100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
 }
 </style>
 </head>
@@ -203,7 +210,7 @@ button {
 
   <div class="card-header">
     <img src="{{ url_for('static', filename='images/logo.png') }}">
-    <h2>Ziua Voluntarului 03</h2>
+    <h2>Ziua Voluntarului</h2>
   </div>
 
   <img class="post-image" src="{{ url_for('static', filename='images/1.jpg') }}">
@@ -240,6 +247,9 @@ button {
   </form>
 </div>
 
+<!-- BUTON NOU -->
+<div class="new-entry" onclick="newEntry()">➕ Altă înregistrare</div>
+
 <script>
 function openCard() {
   document.getElementById("start").style.display = "none";
@@ -257,6 +267,12 @@ function verificaVarsta() {
     (v && parseInt(v) < 18) ? "block" : "none";
 }
 
+function newEntry() {
+  document.getElementById("card").classList.add("active");
+  document.getElementById("inscriereForm").style.display = "block";
+  document.getElementById("inscriereForm").reset();
+}
+
 document.getElementById("inscriereForm").addEventListener("submit", async function(e) {
   e.preventDefault();
 
@@ -268,14 +284,12 @@ document.getElementById("inscriereForm").addEventListener("submit", async functi
   });
 
   if (res.ok) {
-    document.getElementById("inscriereForm").style.display = "none";
-
-    const msg = document.createElement("div");
-    msg.style.padding = "40px";
-    msg.style.textAlign = "center";
-    msg.innerHTML = "<h2>✔ Înscriere reușită</h2><p>Mulțumim! Te-ai înregistrat cu succes.</p>";
-
-    document.querySelector(".card").appendChild(msg);
+    document.querySelector(".card").innerHTML = `
+      <div style="padding:40px;text-align:center;">
+        <h2>✔ Înscriere reușită</h2>
+        <p>Mulțumim!</p>
+      </div>
+    `;
   }
 });
 </script>
