@@ -1,10 +1,10 @@
 import psycopg2
 
 conn = psycopg2.connect(
-    host="dpg-d7siafgk1i2s739prs6g-a.oregon-postgres.render.com",
-    database="formular",
+    host="dpg-d7sjr3f7f7vs73d4dcog-a.oregon-postgres.render.com",
+    database="formular_qzzi",
     user="formular_user",
-    password="EboB58d2pBGMVhqXfProSvUDXHfBj08A",
+    password="AFvqFyk7AEi7IuTBrYB35rHguAXu7A4w",
     port=5432
 )
 cur = conn.cursor()
