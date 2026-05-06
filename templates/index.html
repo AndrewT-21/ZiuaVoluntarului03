@@ -187,8 +187,7 @@ button {
     <div class="row">
       <label>Vârstă</label>
       <input type="number" id="varsta" name="varsta" min="14" oninput="verificaVarsta()" required>    </div>
-      <div id="eroare-varsta" style="color:red; display:none; font-size:12px;">
-  Trebuie să ai minim 14 ani pentru înscriere.
+      <div id="eroare-varsta" style="color:red; display:none; font-size:12px;"> Trebuie să ai minim 14 ani pentru înscriere!
 </div>
     <div class="row">
       <label>Telefon</label>
@@ -223,13 +222,17 @@ button {
 <script>
 function verificaVarsta() {
   let v = document.getElementById("varsta").value;
+  let eroare = document.getElementById("eroare-varsta");
 
+  // text pentru minori (sub 18)
   document.getElementById("text-minori").style.display =
     (v && parseInt(v) < 18) ? "block" : "none";
 
-  // 🔥 ascunde eroarea dacă devine valid
-  if (parseInt(v) >= 14) {
-    document.getElementById("eroare-varsta").style.display = "none";
+  // 🔥 mesaj pentru sub 14 (LIVE)
+  if (v && parseInt(v) < 14) {
+    eroare.style.display = "block";
+  } else {
+    eroare.style.display = "none";
   }
 }
 
