@@ -186,9 +186,10 @@ button {
 
     <div class="row">
       <label>Vârstă</label>
-      <input type="number" id="varsta" name="varsta" oninput="verificaVarsta()" required>
-    </div>
-
+      <input type="number" id="varsta" name="varsta" min="14" oninput="verificaVarsta()" required>    </div>
+      <div id="eroare-varsta" style="color:red; display:none; font-size:12px;">
+  Trebuie să ai minim 14 ani pentru înscriere.
+</div>
     <div class="row">
       <label>Telefon</label>
       <input name="telefon" required>
@@ -222,12 +223,29 @@ button {
 <script>
 function verificaVarsta() {
   let v = document.getElementById("varsta").value;
+
   document.getElementById("text-minori").style.display =
     (v && parseInt(v) < 18) ? "block" : "none";
+
+  // 🔥 ascunde eroarea dacă devine valid
+  if (parseInt(v) >= 14) {
+    document.getElementById("eroare-varsta").style.display = "none";
+  }
 }
 
 document.getElementById("inscriereForm").addEventListener("submit", async function(e) {
   e.preventDefault();
+
+  let varsta = parseInt(document.getElementById("varsta").value);
+  let eroare = document.getElementById("eroare-varsta");
+
+  // 🔥 VALIDARE REALĂ
+  if (!varsta || varsta < 14) {
+    eroare.style.display = "block";
+    return; // oprește trimiterea
+  } else {
+    eroare.style.display = "none";
+  }
 
   const formData = new FormData(this);
 
